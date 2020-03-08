@@ -12,7 +12,8 @@
     
 import sys
 from time import time
-sys.path.append("../tools/")
+sys.path.append("tools/")
+print(sys.path)
 from email_preprocess import preprocess
 
 
@@ -30,4 +31,17 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 #########################################################
 
-
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+gnb = GaussianNB()
+t0 = time()
+gnb.fit(features_train, labels_train)
+print("training time:", round(time()-t0, 3), "s")
+t0 = time()
+y_pred = gnb.predict(features_test)
+print("predict time:", round(time()-t0, 3), "s")
+print("accuracy:", accuracy_score(labels_test, y_pred))
+#Result
+# training time: 1.767 s
+# predict time: 0.298 s
+# accuracy: 0.9732650739476678
